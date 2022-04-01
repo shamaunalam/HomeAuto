@@ -3,11 +3,9 @@ from django.shortcuts import render
 
 from django.contrib.auth.models import User
 from .models import Device,UserDevice
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
-def home(request):
-    return HttpResponse("this is home")
-
+@login_required(login_url='index')
 def getdevicestatus(request,pk):
 
     try:
@@ -21,6 +19,7 @@ def getdevicestatus(request,pk):
 
         return JsonResponse({"message":"no devices found"})
 
+@login_required(login_url='index')
 def togglelight(request,pk):
     try:
         device = Device.objects.get(deviceId=pk)
@@ -40,6 +39,7 @@ def togglelight(request,pk):
 
         return JsonResponse({"message":"no devices found"})
 
+@login_required(login_url='index')
 def togglefan(request,pk):
     try:
         device = Device.objects.get(deviceId=pk)
